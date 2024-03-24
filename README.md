@@ -1,4 +1,4 @@
-# Inter of Things Project
+# Internet of Things Project
 Advanced Internet of Things Technology module (NT531)  
 University of Information Technology  
 The duration of the project is from March 2024 to May 2024
