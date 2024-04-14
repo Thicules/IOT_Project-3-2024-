@@ -4,7 +4,6 @@ import React from 'react';
 const LocationScreen = () => {
   return (
     <View>
-      <Text>LocationScreen</Text>
     </View>
   );
 };

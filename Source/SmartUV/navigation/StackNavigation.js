@@ -1,50 +1,50 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import LocationScreen from '../screens/LocationScreen';
 import SettingScreen from '../screens/SettingScreen';
 import { Image } from 'react-native';
-import {COLORS} from '../assets';
+import { COLORS } from '../assets';
 import { ICONS } from '../assets';
 import { SCREENS } from '../assets';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const StackNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName={SCREENS.HOME}>
+    <Stack.Navigator>
       <Stack.Screen
-        name={SCREENS.HOME}
+        name="HomeTab"
         component={TabNavigator}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={SCREENS.LOCATION}
-        component={TabNavigator}
-        options={{headerShown: false}}
+        name="LocationTab"
+        component={LocationScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={SCREENS.SETTING}
-        component={TabNavigator}
-        options={{headerShown: false}}
+        name="SettingTab"
+        component={SettingScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
-    
   );
 };
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator initialRouteName={HomeScreen}>      
+    <Tab.Navigator>
       <Tab.Screen
-        name={SCREENS.HOME}
+        name="Home"
         component={HomeScreen}
         options={{
-          title: 'Home',
+          headerShown: false, 
           tabBarItemStyle: {
             marginBottom: 5,
           },
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
               source={ICONS.HOME}
               style={{
@@ -61,15 +61,15 @@ const TabNavigator = () => {
           tabBarInactiveTintColor: COLORS.BLACK,
         }}
       />
-      <Tab.Screen
-        name={SCREENS.LOCATION}
+      <Tab.Screen 
+        name="Location"
         component={LocationScreen}
         options={{
-          title: 'Location',
+          headerShown: false,
           tabBarItemStyle: {
             marginBottom: 5,
           },
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
               source={ICONS.LOCATION}
               style={{
@@ -87,14 +87,14 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={SCREENS.SETTING}
+        name="Setting"
         component={SettingScreen}
         options={{
-          title: 'Setting',
+          headerShown: false,
           tabBarItemStyle: {
             marginBottom: 5,
           },
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
               source={ICONS.PROFILE}
               style={{
