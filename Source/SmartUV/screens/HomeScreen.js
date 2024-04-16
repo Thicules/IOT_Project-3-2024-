@@ -1,9 +1,11 @@
 import {View, Text, Image, SafeAreaView, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { styleHome } from './styleScreen/styleHome';
 import { COLORS } from '../assets';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Chart from './chart';
+import Linedchart from './components/LineChart';
+import * as Location from 'expo-location'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const UVIndex = 6.5;
 
@@ -13,12 +15,72 @@ function convertUVIndexToPercentage(uvIndex) {
 }
 
 const HomeScreen = () => {
+  // Lấy thời gian và vị trí của thiết bị di động
+  const [currentTime, setCurrentTime] = useState("");
+  const [city, setCityName] = useState(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+    const currentTime = new Date().toLocaleTimeString();
+    setCurrentTime(currentTime);
+    }, 1000);
+    return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+      requestLocationPermission();
+    }, []);
+
+    const requestLocationPermission = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+  
+        if (status === 'granted') {
+          getLocation();
+        } else {
+          console.log('Permission denied');
+        }
+      } catch (error) {
+        console.log('Error requesting location permission:', error);
+      }
+    };
+  
+    const getLocation = async () => {
+      try {
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+  
+        getCityFromCoordinates(latitude, longitude);
+      } catch (error) {
+        console.log('Error getting location:', error);
+      }
+    };
+  
+    const getCityFromCoordinates = async (latitude, longitude) => {
+      try {
+        const geocode = await Location.reverseGeocodeAsync({ latitude, longitude });
+  
+        if (geocode.length > 0) {
+          const city = geocode[0].city;
+          setCityName(city);
+        } else {
+          console.log('No results found');
+        }
+      } catch (error) {
+        console.log('Error getting city from coordinates:', error);
+      }
+    };
+  
+  
+    
+
   return (
-    <SafeAreaView style={{ flex: 1}}>
-      <ScrollView style={{ flex: 1, backgroundColor:  'white' }}>      
-        <View style={styleHome.container}>
-          <View style={styleHome.headerContainer}>            
-            <Text style={styleHome.mainTitle}>TP Hồ Chí Minh</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>      
+        <LinearGradient colors={['#252c42', '#3a39c4']} style={styleHome.container}>
+          <View style={styleHome.headerContainer}>
+            {city ? (<Text style={styleHome.mainTitle}>{city}</Text>) : (<Text style={styleHome.mainTitle}>Loading...</Text>) }         
+            <Text style={styleHome.subTitle}>{currentTime}</Text>
           </View> 
           <View style={styleHome.circularProgressbar}>
             <AnimatedCircularProgress
@@ -54,12 +116,13 @@ const HomeScreen = () => {
             <Text style={styleHome.UVTitle2}>Max</Text>
             <Text style={styleHome.UVIndex}>20</Text>
           </View>               
-        </View>
+        </LinearGradient>
 
         {/* Chart */}
         <View style={styleHome.chartContainer}>
-          <Chart />
+          <Linedchart/>
         </View>
+  
           
       </ScrollView>
     </SafeAreaView>

@@ -18,7 +18,13 @@ export const styleHome = StyleSheet.create({
         color: COLORS.white,
         fontWeight: '500'
       },
-      
+      subTitle: {
+        fontSize: 20,
+        zIndex: 1,
+        marginTop:10,
+        color: COLORS.white,
+        fontWeight: '500'
+      },
       //circular
       circularProgressbar: {
         alignSelf: 'center',
@@ -54,9 +60,9 @@ export const styleHome = StyleSheet.create({
       },
 
       line: {
-        height: 1,
-        marginVertical: 10,
+        height: 0.5,
         marginTop:2,
+        marginBottom:10,
         backgroundColor: COLORS.white,
       },
       
@@ -93,7 +99,8 @@ export const styleHome = StyleSheet.create({
       //chart
       chartContainer: {
         flex: 1,
-        padding: 20,
+        padding: 10,
       }
+
 
 })
