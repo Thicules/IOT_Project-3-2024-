@@ -65,6 +65,7 @@ export const styleHome = StyleSheet.create({
         marginBottom:10,
         backgroundColor: COLORS.white,
       },
+
       
       // Title UV
       UVIndexContainer: {
@@ -100,7 +101,66 @@ export const styleHome = StyleSheet.create({
       chartContainer: {
         flex: 1,
         padding: 10,
-      }
+      },
+
+      //next day prediction
+      predictionFrame: {
+        position: 'relative',
+        padding: 13,
+      },
+      predictionContainer: {
+        borderWidth: 1,
+        padding: 10,
+        borderColor: COLORS.ORANGE,
+        borderRadius: 13,
+      },
+      predictionSubTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        marginHorizontal: -50,
+      },
+      predictionContentContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        marginHorizontal: -50,
+        
+      },
+      predictionTextContainer: {
+        flexDirection: 'column',
+        alignItems: 'center', 
+            
+      },
+      predictionMainTitle: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        alignSelf: 'flex-start',
+        top: -5,
+        color: '#3a39d4',
+        marginBottom: 5,
+      },
+      predictionSubTitle: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: '#3a39c4',
+        marginTop: 5,
+        marginBottom: 5,
+      },
+      predictionText: {
+        fontSize: 13,
+        fontWeight: 500,        
+        color: COLORS.BLACK,
+        marginVertical: 5,
+      },
+      line1: {
+        height: 1,
+        marginTop: 10,
+        width: 330,
+        alignSelf: 'center',
+        backgroundColor: COLORS.gray,        
+      },
+      
 
 
 })

@@ -6,9 +6,12 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Linedchart from './components/LineChart';
 import * as Location from 'expo-location'
 import { LinearGradient } from 'expo-linear-gradient';
+import moment from 'moment';
+const API_KEY = '1611ec05c074eaf17e2075ba2af4a200';
 
 const UVIndex = 6.5;
-
+const day = moment();
+const dayOfWeek = day.format('dddd');
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
 	else return parseInt(uvIndex*100/11)
@@ -18,23 +21,42 @@ const HomeScreen = () => {
   // Lấy thời gian và vị trí của thiết bị di động
   const [currentTime, setCurrentTime] = useState("");
   const [city, setCityName] = useState(null);
+  const [nextDays, setNextDays] = useState([]);
+  const [weatherData, setWeatherData] = useState(null);
+
+    //Hiển thị những ngày kế tiếp
+  useEffect(() => {
+  updateNextDays(); 
+  const interval = setInterval(() => {
+    updateNextDays();}, 1000); 
+    return () => {
+      clearInterval(interval); 
+    };
+  }, []);   
+
+  const updateNextDays = () => {
+    const currentDate = moment(); 
+    const newNextDays = [];  
+    for (let i = 1; i <= 4; i++) {
+      const nextDay = currentDate.clone().add(i, 'days'); // Lấy ngày tiếp theo
+      const dayOfWeek = nextDay.format('dddd'); // Lấy thứ của ngày tiếp theo
+  
+      newNextDays.push({
+        date: nextDay,
+        dayOfWeek: dayOfWeek });  }  
+    setNextDays(newNextDays);} 
 
   useEffect(() => {
     const interval = setInterval(() => {
     const currentTime = new Date().toLocaleTimeString();
-    setCurrentTime(currentTime);
-    }, 1000);
-    return () => clearInterval(interval);
-    }, []);
+    setCurrentTime(currentTime);}, 1000);
+    return () => clearInterval(interval); }, []);
 
-    useEffect(() => {
-      requestLocationPermission();
-    }, []);
+    useEffect(() => {requestLocationPermission();}, []);
 
     const requestLocationPermission = async () => {
       try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-  
+        const { status } = await Location.requestForegroundPermissionsAsync();  
         if (status === 'granted') {
           getLocation();
         } else {
@@ -48,9 +70,8 @@ const HomeScreen = () => {
     const getLocation = async () => {
       try {
         const location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-  
-        getCityFromCoordinates(latitude, longitude);
+        const { latitude, longitude } = location.coords;  
+        getCityFromCoordinates(latitude, longitude);        
       } catch (error) {
         console.log('Error getting location:', error);
       }
@@ -58,8 +79,7 @@ const HomeScreen = () => {
   
     const getCityFromCoordinates = async (latitude, longitude) => {
       try {
-        const geocode = await Location.reverseGeocodeAsync({ latitude, longitude });
-  
+        const geocode = await Location.reverseGeocodeAsync({ latitude, longitude });  
         if (geocode.length > 0) {
           const city = geocode[0].city;
           setCityName(city);
@@ -69,9 +89,17 @@ const HomeScreen = () => {
       } catch (error) {
         console.log('Error getting city from coordinates:', error);
       }
+    };  
+    const getWeatherData = async (latitude, longitude) => {
+      try {
+        const response = await fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
+        const data = await response.json();
+        setWeatherData(data);
+      } catch (error) {
+        console.log('Error getting weather data:', error);
+      }
     };
-  
-  
+
     
 
   return (
@@ -122,6 +150,38 @@ const HomeScreen = () => {
         <View style={styleHome.chartContainer}>
           <Linedchart/>
         </View>
+
+        <View style={styleHome.line1}/>
+        {/* Prediction */}
+        <View style={styleHome.predictionFrame}>
+        <Text style={styleHome.predictionMainTitle}>Next days</Text>  
+        <View style={styleHome.predictionContainer}>      
+
+          <View style={styleHome.predictionContentContainer}>
+            <View style={styleHome.predictionTextContainer}>
+              <Text style={styleHome.predictionSubTitle}>Day</Text>
+              <Text style={styleHome.predictionText}>{nextDays[0]?.date.format('dddd')}</Text>
+              <Text style={styleHome.predictionText}>{nextDays[1]?.date.format('dddd')}</Text>
+              <Text style={styleHome.predictionText}>{nextDays[2]?.date.format('dddd')}</Text>
+              <Text style={styleHome.predictionText}>{nextDays[3]?.date.format('dddd')}</Text>
+            </View>        
+            <View style={styleHome.predictionTextContainer}>
+              <Text style={styleHome.predictionSubTitle}>Min UV</Text>
+              <Text style={styleHome.predictionText}>5</Text>
+              <Text style={styleHome.predictionText}>5</Text>
+              <Text style={styleHome.predictionText}>5</Text>
+              <Text style={styleHome.predictionText}>-</Text>
+            </View>
+            <View style={styleHome.predictionTextContainer}>
+              <Text style={styleHome.predictionSubTitle}>Max UV</Text>
+              <Text style={styleHome.predictionText}>12</Text>
+              <Text style={styleHome.predictionText}>11</Text>
+              <Text style={styleHome.predictionText}>13</Text>
+              <Text style={styleHome.predictionText}>-</Text>
+            </View>          
+          </View>
+        </View>
+        </View>
   
           
       </ScrollView>
@@ -130,3 +190,13 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+const dayAbbreviations = {
+  Sunday: 'Sun',
+  Monday: 'Mon',
+  Tuesday: 'Tue',
+  Wednesday: 'Wed',
+  Thursday: 'Thu',
+  Friday: 'Fri',
+  Saturday: 'Sat',
+};
