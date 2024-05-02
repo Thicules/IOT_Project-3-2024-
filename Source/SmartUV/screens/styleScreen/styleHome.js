@@ -60,7 +60,7 @@ export const styleHome = StyleSheet.create({
       },
 
       line: {
-        height: 0.5,
+        height: 0.3,
         marginTop:2,
         marginBottom:10,
         backgroundColor: COLORS.white,
@@ -139,6 +139,7 @@ export const styleHome = StyleSheet.create({
         top: -5,
         color: '#3a39d4',
         marginBottom: 5,
+        marginTop: 5,
       },
       predictionSubTitle: {
         fontSize: 13,
@@ -154,11 +155,11 @@ export const styleHome = StyleSheet.create({
         marginVertical: 5,
       },
       line1: {
-        height: 1,
+        height: 0.7,
         marginTop: 10,
-        width: 330,
+        width: 340,
         alignSelf: 'center',
-        backgroundColor: COLORS.gray,        
+        backgroundColor: COLORS.GRAY_LIGHT,        
       },
       
 

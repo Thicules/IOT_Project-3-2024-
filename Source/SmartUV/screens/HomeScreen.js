@@ -4,14 +4,12 @@ import { styleHome } from './styleScreen/styleHome';
 import { COLORS } from '../assets';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Linedchart from './components/LineChart';
-import * as Location from 'expo-location'
+import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 const API_KEY = '1611ec05c074eaf17e2075ba2af4a200';
 
-const UVIndex = 6.5;
-const day = moment();
-const dayOfWeek = day.format('dddd');
+const UVIndex = 3;
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
 	else return parseInt(uvIndex*100/11)
@@ -22,7 +20,6 @@ const HomeScreen = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [city, setCityName] = useState(null);
   const [nextDays, setNextDays] = useState([]);
-  const [weatherData, setWeatherData] = useState(null);
 
     //Hiển thị những ngày kế tiếp
   useEffect(() => {
@@ -52,7 +49,7 @@ const HomeScreen = () => {
     setCurrentTime(currentTime);}, 1000);
     return () => clearInterval(interval); }, []);
 
-    useEffect(() => {requestLocationPermission();}, []);
+  useEffect(() => {requestLocationPermission();}, []);
 
     const requestLocationPermission = async () => {
       try {
@@ -90,15 +87,15 @@ const HomeScreen = () => {
         console.log('Error getting city from coordinates:', error);
       }
     };  
-    const getWeatherData = async (latitude, longitude) => {
-      try {
-        const response = await fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
-        const data = await response.json();
-        setWeatherData(data);
-      } catch (error) {
-        console.log('Error getting weather data:', error);
-      }
-    };
+    // const getWeatherData = async (latitude, longitude) => {
+    //   try {
+    //     const response = await fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
+    //     const data = await response.json();
+    //     setWeatherData(data);
+    //   } catch (error) {
+    //     console.log('Error getting weather data:', error);
+    //   }
+    // };
 
     
 
@@ -109,17 +106,17 @@ const HomeScreen = () => {
           <View style={styleHome.headerContainer}>
             {city ? (<Text style={styleHome.mainTitle}>{city}</Text>) : (<Text style={styleHome.mainTitle}>Loading...</Text>) }         
             <Text style={styleHome.subTitle}>{currentTime}</Text>
-          </View> 
+          </View>  
           <View style={styleHome.circularProgressbar}>
             <AnimatedCircularProgress
                 size={250}
                 width={15}
                 backgroundColor="#BC7FCD"
-                tintColor="#FFE5E5"
+                tintColor={COLORS.maincolor}
                 fill={convertUVIndexToPercentage(UVIndex)}
                 backgroundWidth={8}
                 arcSweepAngle={240}
-                tintColorSecondary={COLORS.ORANGE}
+                tintColorSecondary={COLORS.RED}
                 rotation={240}
                 lineCap="round"                
               >
@@ -147,7 +144,9 @@ const HomeScreen = () => {
         </LinearGradient>
 
         {/* Chart */}
+
         <View style={styleHome.chartContainer}>
+          <Text style={styleHome.predictionMainTitle}>Today</Text> 
           <Linedchart/>
         </View>
 
@@ -161,25 +160,20 @@ const HomeScreen = () => {
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Day</Text>
               <Text style={styleHome.predictionText}>{nextDays[0]?.date.format('dddd')}</Text>
-              <Text style={styleHome.predictionText}>{nextDays[1]?.date.format('dddd')}</Text>
-              <Text style={styleHome.predictionText}>{nextDays[2]?.date.format('dddd')}</Text>
-              <Text style={styleHome.predictionText}>{nextDays[3]?.date.format('dddd')}</Text>
             </View>        
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Min UV</Text>
               <Text style={styleHome.predictionText}>5</Text>
-              <Text style={styleHome.predictionText}>5</Text>
-              <Text style={styleHome.predictionText}>5</Text>
-              <Text style={styleHome.predictionText}>-</Text>
             </View>
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Max UV</Text>
               <Text style={styleHome.predictionText}>12</Text>
-              <Text style={styleHome.predictionText}>11</Text>
-              <Text style={styleHome.predictionText}>13</Text>
-              <Text style={styleHome.predictionText}>-</Text>
             </View>          
           </View>
+          
+        </View>
+        <View style={styleHome.chartContainer}>
+          <Linedchart/>
         </View>
         </View>
   

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import LocationScreen from '../screens/LocationScreen';
 import SettingScreen from '../screens/SettingScreen';
+import PersonalScreen from '../screens/PersonalScreen';
 import { Image } from 'react-native';
 import { COLORS } from '../assets';
 import { ICONS } from '../assets';
@@ -20,10 +21,15 @@ const StackNavigation = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="PersonalTab"
+        component={PersonalScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="LocationTab"
         component={LocationScreen}
         options={{ headerShown: false }}
-      />
+      />      
       <Stack.Screen
         name="SettingTab"
         component={SettingScreen}
@@ -47,6 +53,31 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Image
               source={ICONS.HOME}
+              style={{
+                height: 20,
+                width: 20,
+                tintColor: focused ? COLORS.ORANGE : COLORS.BLACK,
+              }}
+            />
+          ),
+          tabBarStyle: {
+            height: 50,
+          },
+          tabBarActiveTintColor: COLORS.ORANGE,
+          tabBarInactiveTintColor: COLORS.BLACK,
+        }}
+      />
+      <Tab.Screen 
+        name="Personal"
+        component={PersonalScreen}
+        options={{
+          headerShown: false,
+          tabBarItemStyle: {
+            marginBottom: 5,
+          },
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={ICONS.PROFILE}
               style={{
                 height: 20,
                 width: 20,
@@ -96,7 +127,7 @@ const TabNavigator = () => {
           },
           tabBarIcon: ({ focused }) => (
             <Image
-              source={ICONS.PROFILE}
+              source={ICONS.SETTING}
               style={{
                 height: 20,
                 width: 20,
