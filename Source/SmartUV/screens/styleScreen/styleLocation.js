@@ -67,4 +67,55 @@ export const styleLocation = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
+  //modal
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+    height: '50%',
+    marginBottom: 90,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  searchInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  cityList: {
+    maxHeight: 200,
+  },
+  cityItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  cityText: {
+    fontSize: 16,
+  },
+  closeButton: {
+    backgroundColor: COLORS.ORANGE,
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 25,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 })
