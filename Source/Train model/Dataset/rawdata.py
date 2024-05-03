@@ -12,7 +12,7 @@ key_array=['openuv-1porlu2uxea7-io','openuv-rliz82rluamkr03-io','openuv-3i96anyr
 
 index=0
 count=0
-for i in range(1,30):
+for i in range(28,32):
     print(i)
     for  j in range(0,13):
         if count==50:
