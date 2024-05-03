@@ -9,7 +9,7 @@ export const stylePersonal = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    justifyContent: 'center',       
+    justifyContent: 'center',  
   },      
   mainTitle: {
     fontSize: 25,

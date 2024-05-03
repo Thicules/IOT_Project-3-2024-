@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LocationScreen from '../screens/LocationScreen';
 import SettingScreen from '../screens/SettingScreen';
 import PersonalScreen from '../screens/PersonalScreen';
+import { WelcomeScreen } from '../screens/WelcomeScreen';
 import { Image } from 'react-native';
 import { COLORS } from '../assets';
 import { ICONS } from '../assets';
@@ -33,6 +34,11 @@ const StackNavigation = () => {
       <Stack.Screen
         name="SettingTab"
         component={SettingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

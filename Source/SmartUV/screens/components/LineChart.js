@@ -24,7 +24,7 @@ const Linedchart = () => {
   };
 
   const get_chart = () => {
-    const apiUrl = "http://172.20.118.135:8000/api/linechart";
+    const apiUrl = "http://172.20.141.50:8000/api/linechart";
     axios
       .get(apiUrl)
       .then((response) => {

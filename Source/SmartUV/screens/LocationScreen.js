@@ -19,7 +19,6 @@ const LocationScreen = () => {
   };
 
   const handleAddCity = (city) => {
-    // Add your logic to handle adding the city to the list
     console.log("Adding city:", city);
     setAddedCities([...addedCities, city]);
     setModalVisible(false);
@@ -46,7 +45,7 @@ const LocationScreen = () => {
       <View style={styleLocation.headerContainer}>
           <Text style={styleLocation.mainTitle}>Locations</Text>
           <View style={styleLocation.buttonContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Image style={styleLocation.button} source={require('../assets/add.png')}/>            
           </TouchableOpacity>
           <TouchableOpacity>
