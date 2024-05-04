@@ -8,7 +8,7 @@ import { WelcomeScreen } from '../screens/WelcomeScreen';
 import { Image } from 'react-native';
 import { COLORS } from '../assets';
 import { ICONS } from '../assets';
-import { SCREENS } from '../assets';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,9 +17,14 @@ const StackNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="HomeTab"
         component={TabNavigator}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animationEnabled: false }}
       />
       <Stack.Screen
         name="PersonalTab"
@@ -36,11 +41,7 @@ const StackNavigation = () => {
         component={SettingScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Welcome"
-        component={WelcomeScreen}
-        options={{ headerShown: false }}
-      />
+
     </Stack.Navigator>
   );
 };
