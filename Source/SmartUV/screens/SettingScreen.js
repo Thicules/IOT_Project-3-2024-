@@ -2,7 +2,13 @@ import {ScrollView, SafeAreaView,Image, Text, View, TouchableOpacity} from 'reac
 import React from 'react';
 import { styleSetting } from './styleScreen/styleSetting';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+
 const SettingScreen = () => {
+  const navigation = useNavigation();
+  const handleAboutUV = () => {
+    navigation.navigate('AboutUV');
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
@@ -37,12 +43,18 @@ const SettingScreen = () => {
         </TouchableOpacity>
         <View style={styleSetting.settinginfoContainer}>
           <Text style={styleSetting.settingTitle}>Your Location</Text>
-          <Image style={styleSetting.iconMore} source={require('../assets/more.png')}/>
+          <TouchableOpacity>
+            <Image style={styleSetting.iconMore} source={require('../assets/more.png')}/>
+          </TouchableOpacity>
+          
         </View>
         <View style={styleSetting.line}/>
         <View style={styleSetting.settinginfoContainer}>
           <Text style={styleSetting.settingTitle}>About UV</Text>
-          <Image style={styleSetting.iconMore} source={require('../assets/more.png')}/>
+          <TouchableOpacity onPress={handleAboutUV}>
+            <Image style={styleSetting.iconMore} source={require('../assets/more.png')}/>
+          </TouchableOpacity>
+          
         </View>
         <View style={styleSetting.line}/>
         <View style={styleSetting.settinginfoContainer}>

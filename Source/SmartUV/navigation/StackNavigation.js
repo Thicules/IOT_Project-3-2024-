@@ -5,6 +5,7 @@ import LocationScreen from '../screens/LocationScreen';
 import SettingScreen from '../screens/SettingScreen';
 import PersonalScreen from '../screens/PersonalScreen';
 import { WelcomeScreen } from '../screens/WelcomeScreen';
+import { AboutUVScreen } from '../screens/AboutUVScreen';
 import { Image } from 'react-native';
 import { COLORS } from '../assets';
 import { ICONS } from '../assets';
@@ -39,6 +40,11 @@ const StackNavigation = () => {
       <Stack.Screen
         name="SettingTab"
         component={SettingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AboutUV"
+        component={AboutUVScreen}
         options={{ headerShown: false }}
       />
 

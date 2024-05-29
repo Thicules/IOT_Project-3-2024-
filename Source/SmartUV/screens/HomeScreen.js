@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 const API_KEY = '1611ec05c074eaf17e2075ba2af4a200';
 
-const UVIndex = 3;
+const UVIndex = 7.5;
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
 	else return parseInt(uvIndex*100/11)
@@ -97,7 +97,6 @@ const HomeScreen = () => {
     //   }
     // };
 
-    
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -153,7 +152,7 @@ const HomeScreen = () => {
         <View style={styleHome.line1}/>
         {/* Prediction */}
         <View style={styleHome.predictionFrame}>
-        <Text style={styleHome.predictionMainTitle}>Next days</Text>  
+        <Text style={styleHome.predictionMainTitle}>Next day</Text>  
         <View style={styleHome.predictionContainer}>      
 
           <View style={styleHome.predictionContentContainer}>

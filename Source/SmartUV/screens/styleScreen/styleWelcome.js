@@ -21,14 +21,14 @@ export const styleWelcome = StyleSheet.create ({
       textAlign: 'center', 
       fontSize: 30,
       fontWeight: 'bold',
-      color: COLORS.ORANGE,
+      color: '#ffb923',
     },
     titleImage: {
       alignSelf: 'flex-end',
       width: 170,
       height: 170,
-      right: 15,
       zIndex: -1,
+      bottom: 5,
     },
 
     mainImage: {
@@ -42,7 +42,7 @@ export const styleWelcome = StyleSheet.create ({
   //signup button
   fixedButton: {
     alignSelf: 'center',
-    backgroundColor: COLORS.ORANGE_TEXT,
+    backgroundColor: '#FFA100',
     paddingHorizontal: 35,
     borderRadius: 20,
   },
@@ -58,7 +58,7 @@ export const styleWelcome = StyleSheet.create ({
     fontSize: 16,
     fontWeight: '500',
     marginTop: 10,
-    color: COLORS.ORANGE_TEXT,
+    color: "#FFA100",
     alignSelf: 'center',
   },
 

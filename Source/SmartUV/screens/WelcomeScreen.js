@@ -1,7 +1,6 @@
-import {ScrollView, SafeAreaView,Image, Text, View, TouchableOpacity} from 'react-native';
+import {Image, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import { styleWelcome } from './styleScreen/styleWelcome';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 export const WelcomeScreen = () => {
@@ -16,7 +15,7 @@ export const WelcomeScreen = () => {
       </View>
       <View style={styleWelcome.titleContainer}>
         <Text style={styleWelcome.titleText}>Welcome to</Text>
-        <Image style={styleWelcome.titleImage} source={require('../assets/logo.png')} />
+        <Image style={[styleWelcome.titleImage, {resizeMode: 'contain'}]} source={require('../assets/logo.png')} />
         
       </View>
       <Image source={require('../assets/3.png')} style={styleWelcome.mainImage} />
