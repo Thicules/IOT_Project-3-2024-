@@ -10,7 +10,8 @@ app.get('/api/linechart', (req, res) => {
   for (let hour = startHour; hour <= endHour; hour++) {
     const dataPoint = {
       hour: hour,
-      UVindex: Math.floor(Math.random() * 10) + 3, // Random number between 5 and 25
+      predictedUVindex: Math.floor(Math.random() * 10) + 3, // Random number between 5 and 25
+      realUVindex: 5,
     };
     sampleData.push(dataPoint);
   }
