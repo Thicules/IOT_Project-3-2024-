@@ -3,19 +3,22 @@ import { Text, View, ActivityIndicator } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import axios from "axios";
 import { COLORS } from "../../assets";
+
 state = {
   datasource: [],
   realTimeData: [],
   loading: true,
   error: false,
   };  
-const Linedchart = () => {
+const NextLinedchart = () => {
   const [datasource1, setDatasource1] = useState([]);
   const [datasource2, setDatasource2] = useState([]);
   const [realTimeData, setRealTimeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selectedDataPoint, setSelectedDataPoint] = useState(null);
+  const [minUV, setMin] = useState(null); 
+  const [maxUV, setMax] = useState(null); 
 
   const handleDataPointClick = (data, dataset) => {
     if (data && dataset && dataset.data.length > data.predictedUVindex) {
@@ -36,6 +39,11 @@ const Linedchart = () => {
       const response2 = await axios.get("http://3.211.243.50/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
       if (response2.data) {
         setDatasource2(response2.data);
+        const data_raw2 = response2.data.nextday;
+        const minUV = Math.min(...data_raw2);
+        const maxUV = Math.max(...data_raw2);
+        setMin(minUV);
+        setMax(maxUV);
       }
 
       setLoading(false);
@@ -73,7 +81,8 @@ const Linedchart = () => {
     );
   } else if (datasource1 || datasource2) {
     let data_raw1 = JSON.parse(datasource1.data);
-    let data_raw2 = datasource2.today;
+    let data_raw2 = datasource2.nextday;
+
     const filteredData1 = data_raw1.filter((item) => {
       const hour = new Date(item.timestamp.$date).getUTCHours();
       return hour >= 5 && hour <= 19;
@@ -95,15 +104,13 @@ const Linedchart = () => {
       }
       labels.push(hour.toString());
     }
+
       return (
         <View>
           <LineChart
             data={{
               labels: labels,
               datasets: [
-                {
-                  data: uvDataReal,
-                },
                 {
                   data: uvDataPredict,
                   color: (opacity = 0.8) => `rgba(68, 5, 214, ${opacity})`,
@@ -148,7 +155,7 @@ const Linedchart = () => {
             )}
           </LineChart>
         </View>
-      );
+      ); 
   } else {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
@@ -158,4 +165,4 @@ const Linedchart = () => {
   }
 };
 
-export default Linedchart;
+export default NextLinedchart;

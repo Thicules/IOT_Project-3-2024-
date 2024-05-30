@@ -7,12 +7,13 @@ import Linedchart from './components/LineChart';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
-const API_KEY = '1611ec05c074eaf17e2075ba2af4a200';
+import { useDispatch, useSelector } from 'react-redux';
+import { connectToMqttBroker } from './components/redux/mqttService';
+import NextLinedchart from './components/NextLineChart';
 
-//sensor datas
-const UVIndex = 7.5;
-const humidity = 75;
-const temperature = 26;
+const UVIndex = 12;
+const temperature = 20;
+const humidity = 70;
 
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
@@ -24,16 +25,25 @@ const HomeScreen = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [city, setCityName] = useState(null);
   const [nextDays, setNextDays] = useState([]);
+  // const dispatch = useDispatch();
+  // const UVIndex = useSelector((state) => state.UVIndex);
+  // const temperature = useSelector((state) => state.temperature);
+  // const humidity = useSelector((state) => state.humidity);
 
-    //Hiển thị những ngày kế tiếp
+  // useEffect(() => {
+  //   connectToMqttBroker(dispatch);
+  // }, [dispatch]);
+
+
   useEffect(() => {
-  updateNextDays(); 
-  const interval = setInterval(() => {
-    updateNextDays();}, 1000); 
+    updateNextDays();
+    const interval = setInterval(() => {
+      updateNextDays();
+    }, 1000);
     return () => {
-      clearInterval(interval); 
+      clearInterval(interval);
     };
-  }, []);   
+  }, []);
 
   const updateNextDays = () => {
     const currentDate = moment(); 
@@ -44,63 +54,60 @@ const HomeScreen = () => {
   
       newNextDays.push({
         date: nextDay,
-        dayOfWeek: dayOfWeek });  }  
-    setNextDays(newNextDays);} 
+        dayOfWeek: dayOfWeek 
+      });  
+    }  
+    setNextDays(newNextDays);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-    const currentTime = new Date().toLocaleTimeString();
-    setCurrentTime(currentTime);}, 1000);
-    return () => clearInterval(interval); }, []);
+      const currentTime = new Date().toLocaleTimeString();
+      setCurrentTime(currentTime);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  useEffect(() => {requestLocationPermission();}, []);
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
 
-    const requestLocationPermission = async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();  
-        if (status === 'granted') {
-          getLocation();
-        } else {
-          console.log('Permission denied');
-        }
-      } catch (error) {
-        console.log('Error requesting location permission:', error);
+  const requestLocationPermission = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();  
+      if (status === 'granted') {
+        getLocation();
+      } else {
+        console.log('Permission denied');
       }
-    };
-  
-    const getLocation = async () => {
-      try {
-        const location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;  
-        getCityFromCoordinates(latitude, longitude);        
-      } catch (error) {
-        console.log('Error getting location:', error);
-      }
-    };
-  
-    const getCityFromCoordinates = async (latitude, longitude) => {
-      try {
-        const geocode = await Location.reverseGeocodeAsync({ latitude, longitude });  
-        if (geocode.length > 0) {
-          const city = geocode[0].city;
-          setCityName(city);
-        } else {
-          console.log('No results found');
-        }
-      } catch (error) {
-        console.log('Error getting city from coordinates:', error);
-      }
-    };  
-    // const getWeatherData = async (latitude, longitude) => {
-    //   try {
-    //     const response = await fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
-    //     const data = await response.json();
-    //     setWeatherData(data);
-    //   } catch (error) {
-    //     console.log('Error getting weather data:', error);
-    //   }
-    // };
+    } catch (error) {
+      console.log('Error requesting location permission:', error);
+    }
+  };
 
+  const getLocation = async () => {
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;  
+      getCityFromCoordinates(latitude, longitude);        
+    } catch (error) {
+      console.log('Error getting location:', error);
+    }
+  };
+
+  const getCityFromCoordinates = async (latitude, longitude) => {
+    try {
+      const geocode = await Location.reverseGeocodeAsync({ latitude, longitude });  
+      if (geocode?.length > 0) {
+        const city = geocode[0].city;
+        setCityName(city);
+      } else {
+        console.log('No results found');
+      }
+    } catch (error) {
+      console.log('Error getting city from coordinates:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -169,7 +176,7 @@ const HomeScreen = () => {
           <View style={styleHome.predictionContentContainer}>
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Day</Text>
-              <Text style={styleHome.predictionText}>{nextDays[0]?.date.format('dddd')}</Text>
+              <Text style={styleHome.predictionText}>{nextDays[0]?.date.format('dddd') || 'N/A'}</Text>
             </View>        
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Min UV</Text>
@@ -183,12 +190,13 @@ const HomeScreen = () => {
           
         </View>
         <View style={styleHome.chartContainer}>
-          <Linedchart/>
+          <NextLinedchart minUV={minUV} maxUV={maxUV} />
         </View>
         </View>
   
           
       </ScrollView>
+
     </SafeAreaView>
   );
 };
