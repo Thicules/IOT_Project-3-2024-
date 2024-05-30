@@ -4,12 +4,13 @@ from typing import  Dict, Any
 from App.db import My_MongoDB as MongoDB
 from bson.objectid import ObjectId
 from bson import json_util
+import json
 
 class Sensor(BaseModel):
     id: str= None
     location: str=None
     status: str=None
-    data: Dict[Any, Any] = {}
+    data: list[Dict[Any, Any]] = [{}]
     admin_user: list=["admin"]
 
     def verify(self):
@@ -25,7 +26,7 @@ class Sensor(BaseModel):
             db.disconnect()
             return False
 
-    def update_data(self):
+    def update_avg_data(self):
         db = MongoDB()
         current_time = datetime.now()
         current_time = datetime.fromisoformat(current_time.isoformat())
@@ -41,15 +42,25 @@ class Sensor(BaseModel):
         db.disconnect()
         return result['admin_user']
     
-    def get_data(self,period:int):
+    def get_data_up_to_now(self,period:int):
         current_time = datetime.now()
         start_time = (current_time.replace()-timedelta(days=period-1)).replace(hour=0,minute=0,second=0,microsecond=0)
         query = {"id_sensor":ObjectId(self.id),"timestamp":{"$gte":datetime.fromisoformat(start_time.isoformat()),"$lte":datetime.fromisoformat(current_time.isoformat())}}
         db = MongoDB()
         result = db.find("Datas_sensor",query,{"_id":0,"id_sensor":0})
-        merged_json = json_util.dumps(result)
+        merged_json =  json_util.dumps(result)
         db.disconnect()
         return merged_json
+    
+    def get_previous_data(self,days:int):
+        current_time = datetime.now()
+        start_time = (current_time.replace(hour=0,minute=0,second=0,microsecond=0)-timedelta(days=days)).replace(hour=0,minute=0,second=0,microsecond=0)
+        query = {"id_sensor":ObjectId(self.id),"timestamp":{"$gte":datetime.fromisoformat(start_time.isoformat()),"$lte":datetime.fromisoformat(current_time.isoformat())}}
+        db = MongoDB()
+        result = db.find("Datas_sensor",query,{"_id":0,"id_sensor":0,"timestamp":0})
+        result= list(result)
+        db.disconnect()
+        return result
     
     def add_sensor(self):
         db = MongoDB()
@@ -57,3 +68,14 @@ class Sensor(BaseModel):
         result = db.insert("Sensors",insert_data)
         db.disconnect()
         return result.inserted_id
+    
+    def update_last_data(self):
+        db = MongoDB()
+        final_data = []
+        for item in self.data:
+            item["id_sensor"]=ObjectId(self.id)
+            item["timestamp"]=datetime.fromisoformat(item["timestamp"])
+            final_data.append(item)
+        result = db.insert_many("Datas_sensor",self.data)
+        db.disconnect()
+        return result.inserted_ids

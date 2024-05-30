@@ -1,25 +1,20 @@
 from App import app
-from App import Mqtt_process
-import threading
+from App.core import Forecast_model
 import uvicorn
-import signal
-import sys
+import threading
+import schedule
+import time
 
-mqtt_process = None
-def run_mqtt_process():
-    global mqtt_process
-    mqtt_process = Mqtt_process()
-    mqtt_process()
 
-def signal_handler(sig, frame):
-    print('Stopping...')
-    if mqtt_process is not None:
-        mqtt_process.stop()
-    sys.exit(0)
+schedule.every(0.1).minutes.do(Forecast_model.reTrain)
+
+def run_schedule():
+    while True:
+        # Run pending jobs
+        schedule.run_pending()
+        time.sleep(1)
 
 if __name__ == "__main__":
-     # Register the signal handler
-    signal.signal(signal.SIGINT, signal_handler)
-    # mqtt_thread = threading.Thread(target=run_mqtt_process)
-    # mqtt_thread.start()
+    schedule_thread = threading.Thread(target=run_schedule,daemon=True)
+    schedule_thread.start()
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -14,7 +14,6 @@ class My_MongoDB:
         database = os.getenv("DB_NAME")  # Tên cơ sở dữ liệu
         self.client = pymongo.MongoClient(f"mongodb://{username}:{password}@{host}:{port}/")
         self.db = self.client[database]
-        self.collection = self.db["test"]
 
     def insert(self, collection_name, data):
         collection = self.db[collection_name]
@@ -35,6 +34,10 @@ class My_MongoDB:
     def find_one(self,collection_name,query,projections=None):
         collection = self.db[collection_name]
         return collection.find_one(query,projections)
+    
+    def insert_many(self,collection_name,data):
+        collection = self.db[collection_name]
+        return collection.insert_many(data)
 
     def disconnect(self):
         self.client.close()

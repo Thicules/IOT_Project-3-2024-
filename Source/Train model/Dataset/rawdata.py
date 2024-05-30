@@ -8,14 +8,14 @@
 import requests
 from datetime import datetime,timedelta
 
-key_array=['openuv-3i96anyrlubawyp7-io','openuv-3i96anyrlubayx7e-io','openuv-3i96anyrlubazy1f-io','openuv-3i96anyrlubb0hy5-io','openuv-3i96anyrlubb1b0c-io']
+key_array=['openuv-3i96anyrlubawyp7-io','openuv-3i96anyrlubayx7e-io','openuv-3i96anyrlubazy1f-io','openuv-3i96anyrlubb0hy5-io','openuv-3i96anyrlubb1b0c-io','openuv-rliz82rluamkr03-io',"openuv-1porlu2uxea7-io"]
 
 
 index=0
-count=2
-for i in range(12,30):
-    print(f"2024-04-{str(i).zfill(2)}")
-    for  j in range(6,17):
+count=0
+for i in range(4,30):
+    print(f"2024-05-{str(i).zfill(2)}")
+    for  j in range(5,19):
         if count==50:
             count=0
             index+=1
