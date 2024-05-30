@@ -53,9 +53,19 @@ class Sensor(BaseModel):
         return merged_json
     
     def get_previous_data(self,days:int):
-        current_time = datetime.now()
-        start_time = (current_time.replace(hour=0,minute=0,second=0,microsecond=0)-timedelta(days=days)).replace(hour=0,minute=0,second=0,microsecond=0)
-        query = {"id_sensor":ObjectId(self.id),"timestamp":{"$gte":datetime.fromisoformat(start_time.isoformat()),"$lte":datetime.fromisoformat(current_time.isoformat())}}
+        current_time = datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
+        start_time = (current_time-timedelta(days=days)).replace(hour=0,minute=0,second=0,microsecond=0)
+        query = {"id_sensor":ObjectId(self.id),"timestamp":{"$gte":datetime.fromisoformat(start_time.isoformat()),"$lt":datetime.fromisoformat(current_time.isoformat())}}
+        db = MongoDB()
+        result = db.find("Datas_sensor",query,{"_id":0,"id_sensor":0,"timestamp":0})
+        result= list(result)
+        db.disconnect()
+        return result
+    
+    def get_data_to_train(self,days:int):
+        current_time = datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
+        start_time = (current_time-timedelta(days=27)).replace(hour=0,minute=0,second=0,microsecond=0)
+        query = {"id_sensor":ObjectId(self.id),"timestamp":{"$gte":datetime.fromisoformat(start_time.isoformat()),"$lt":datetime.fromisoformat(current_time.isoformat())}}
         db = MongoDB()
         result = db.find("Datas_sensor",query,{"_id":0,"id_sensor":0,"timestamp":0})
         result= list(result)

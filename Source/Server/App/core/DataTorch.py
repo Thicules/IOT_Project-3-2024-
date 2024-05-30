@@ -1,5 +1,4 @@
-import torch.nn as nn
-import pandas
+import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 class TimeSeriesDataset(Dataset):
@@ -13,24 +12,24 @@ class TimeSeriesDataset(Dataset):
     
     def __getitem__(self, index):
         x = self.x[index:index+self.sequence_length]
-        y = self.y[index]
+        y = torch.cat((self.y[index],self.y[index+1]),dim=0)
         return x, y
         
 class ListData:
-    def __init__(self,phase="Train"):
-        self.raw_data= pandas.read_csv(f"/home/jupyter-iec_roadquality/Train_model/UV/Dataset/{phase} data.csv")
-        self.data= self.raw_data.loc[:,['Tem','Hum',"UV"]]
+    def __init__(self,phase="Train",data=None):
+        processed_array =[[item['data']['UV'], item['data']['Tem'], item['data']['Hum']] for item in data]
+        self.data= np.array(processed_array)
     def __call__(self):
-        x=self.data[:-24].values
-        y=self.data[576:].values[:,2]
+        x=self.data[:-48].values
+        y=self.data[576:].values[:,0]
         x_tensor = torch.tensor(x.reshape(-1,24,3), dtype=torch.float32)
         y_tensor = torch.tensor(y.reshape(-1,24), dtype=torch.float32)
         scaler_x = torch.nn.functional.normalize(x_tensor)
         scaler_y = torch.nn.functional.normalize(y_tensor)
         return  scaler_x,scaler_y
 
-def create_data(batch_size=32,sequence_length=24):
-    x_train,y_train=ListData()()
+def create_data(batch_size=32,sequence_length=24,data=None):
+    x_train,y_train=ListData(data=data)()
     x_val,y_val=ListData(phase="Val")()
     train_dataset= TimeSeriesDataset(x_train, y_train, sequence_length)
     val_dataset= TimeSeriesDataset(x_val, y_val, sequence_length)

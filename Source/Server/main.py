@@ -4,9 +4,18 @@ import uvicorn
 import threading
 import schedule
 import time
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-schedule.every(0.1).minutes.do(Forecast_model.reTrain)
+
+schedule.every(3).days.at("00:01").do(Forecast_model.reTrain)
 
 def run_schedule():
     while True:

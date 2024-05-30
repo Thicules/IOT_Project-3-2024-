@@ -16,7 +16,7 @@ def forecast(id_sensor:str,username=Depends(Authentication().validate_token)):
     # Get data from sensor
     data = sensor.get_previous_data(24)
     # process data
-    process_data = ProcessData.process_to_train(data)
-    prediction = Forecast_model(process_data).get_forecast()
-    print(prediction)
-    return {"status":True,"message":"Forecast successfully","prediction":prediction}
+    processdata = ProcessData(data) 
+    data_to_predict = processdata.process_predict()
+    prediction = Forecast_model(data_to_predict).get_forecast()
+    return {"status":True,"message":"Forecast successfully","today":prediction[0:24],"nextday":prediction[24:]}

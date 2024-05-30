@@ -12,7 +12,7 @@ json_data = json.loads(json_data)
 json_post={"id":"66308f81873ef1d334dd28dc","data":json_data}
 print(json_post)
 
-res = requests.post('http://localhost:8000/api/update_lastest_data',data=json.dumps(json_post), headers={'Content-Type': 'application/json', 
+res = requests.post('http://3.211.243.50/api/update_lastest_data',data=json.dumps(json_post), headers={'Content-Type': 'application/json', 
                                                                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxNzMwNDEsInVzZXJuYW1lIjoiYWRtaW4ifQ.PdX6cPvzpAe0gLMSC4l9LENsqWvKv1qvwpA7dthUXLs'})
 print(res.json())
 
