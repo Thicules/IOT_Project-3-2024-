@@ -9,7 +9,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 const API_KEY = '1611ec05c074eaf17e2075ba2af4a200';
 
+//sensor datas
 const UVIndex = 7.5;
+const humidity = 75;
+const temperature = 26;
+
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
 	else return parseInt(uvIndex*100/11)
@@ -139,6 +143,13 @@ const HomeScreen = () => {
             <Text style={styleHome.UVIndex}>{UVIndex}</Text>
             <Text style={styleHome.UVTitle2}>Max</Text>
             <Text style={styleHome.UVIndex}>20</Text>
+          </View> 
+          <View style={styleHome.WeatherContainer}>
+            <Text style={styleHome.WTTitle1}>Weather Conditions</Text>
+            <Image style={styleHome.WTTitle2} source={require('../assets/temperature.png')}/>
+            <Text style={styleHome.WTIndex}>{temperature}℃</Text>
+            <Image style={styleHome.WTTitle2} source={require('../assets/humidity.png')} />
+            <Text style={styleHome.WTIndex}>{humidity}%</Text>
           </View>               
         </LinearGradient>
 

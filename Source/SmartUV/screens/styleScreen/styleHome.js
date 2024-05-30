@@ -97,6 +97,40 @@ export const styleHome = StyleSheet.create({
         color: COLORS.white,
       },
 
+      //weather container
+      WeatherContainer: {
+        position: 'relative',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        marginBottom: 5,
+        marginTop: 10,
+      },
+      WTTitle1: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        alignSelf: 'flex-start',
+        marginRight: 50,
+        color: COLORS.white,
+      },
+
+      WTTitle2: {
+        width: 20,
+        height: 20,
+        tintColor: COLORS.WHITE,
+        fontWeight: 'bold',
+        alignSelf: 'flex-end',
+        color: COLORS.white,
+      },
+
+      WTIndex: {
+        fontSize: 16,
+        fontWeight: 500,
+        alignSelf: 'flex-end',
+        color: COLORS.white,
+        marginRight: 20,
+      },
+
       //chart
       chartContainer: {
         flex: 1,
