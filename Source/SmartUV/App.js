@@ -1,8 +1,6 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import StackNavigation from './navigation/StackNavigation';
 import { COLORS } from './assets';
-import { Provider } from 'react-redux';
-import store from './screens/components/redux/store.js';
 const MyTheme = {
   ...DefaultTheme,
   colors: {

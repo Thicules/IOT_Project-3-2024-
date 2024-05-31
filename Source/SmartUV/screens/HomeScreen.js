@@ -8,13 +8,8 @@ import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectToMqttBroker } from '../redux/mqttService';
 import NextLinedchart from './components/NextLineChart';
-
-
-const UVIndex = 12;
-const temperature = 20;
-const humidity = 70;
+import { connectToMqttBroker, getSensorData } from '../getdata/getData';
 
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
@@ -26,17 +21,12 @@ const HomeScreen = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [city, setCityName] = useState(null);
   const [nextDays, setNextDays] = useState([]);
-  // const dispatch = useDispatch();
-  // const UVIndex = useSelector((state) => state.UVIndex);
-  // const temperature = useSelector((state) => state.temperature);
-  // const humidity = useSelector((state) => state.humidity);
-
-  // useEffect(() => {
-  //   connectToMqttBroker(dispatch);
-  // }, [dispatch]);
-
+  const [UVIndex, setUVIndex] = useState(0);
+  const [humidity, setHumidity] = useState(0);
+  const [temperature, setTemperature] = useState(0);
 
   useEffect(() => {
+    connectToMqttBroker();
     updateNextDays();
     const interval = setInterval(() => {
       updateNextDays();
@@ -44,6 +34,16 @@ const HomeScreen = () => {
     return () => {
       clearInterval(interval);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const { UVIndex, temperature, humidity } = getSensorData();
+      setUVIndex(UVIndex);
+      setTemperature(temperature);
+      setHumidity(humidity);
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const updateNextDays = () => {
