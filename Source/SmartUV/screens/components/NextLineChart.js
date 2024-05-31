@@ -39,11 +39,6 @@ const NextLinedchart = () => {
       const response2 = await axios.get("http://3.211.243.50/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
       if (response2.data) {
         setDatasource2(response2.data);
-        const data_raw2 = response2.data.nextday;
-        const minUV = Math.min(...data_raw2);
-        const maxUV = Math.max(...data_raw2);
-        setMin(minUV);
-        setMax(maxUV);
       }
 
       setLoading(false);

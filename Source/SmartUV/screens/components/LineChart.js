@@ -36,6 +36,7 @@ const Linedchart = () => {
       const response2 = await axios.get("http://3.211.243.50/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
       if (response2.data) {
         setDatasource2(response2.data);
+        
       }
 
       setLoading(false);
@@ -59,6 +60,7 @@ const Linedchart = () => {
       clearInterval(interval);
     };
   }, []);
+
   if (loading) {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
@@ -91,7 +93,7 @@ const Linedchart = () => {
       if (dataPoint1) {
         uvDataReal.push(dataPoint1.data.UV);
       } else {
-        uvDataReal.push('');
+        uvDataReal.push();
       }
       labels.push(hour.toString());
     }

@@ -8,8 +8,9 @@ import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectToMqttBroker } from './components/redux/mqttService';
+import { connectToMqttBroker } from '../redux/mqttService';
 import NextLinedchart from './components/NextLineChart';
+
 
 const UVIndex = 12;
 const temperature = 20;
@@ -190,7 +191,7 @@ const HomeScreen = () => {
           
         </View>
         <View style={styleHome.chartContainer}>
-          <NextLinedchart minUV={minUV} maxUV={maxUV} />
+          <NextLinedchart/>
         </View>
         </View>
   
