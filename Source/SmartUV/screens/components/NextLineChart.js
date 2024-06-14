@@ -33,10 +33,10 @@ const NextLinedchart = () => {
     };
   
     try {
-      const response1 = await axios.get("http://3.211.243.50/api/get_data_up_to_now?id_sensor=66308f81873ef1d334dd28dc&period=1", { headers });
+      const response1 = await axios.get("http://20.127.187.112/api/get_data_up_to_now?id_sensor=66308f81873ef1d334dd28dc&period=1", { headers });
       setDatasource1(response1.data);
   
-      const response2 = await axios.get("http://3.211.243.50/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
+      const response2 = await axios.get("http://20.127.187.112/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
       if (response2.data) {
         setDatasource2(response2.data);
       }

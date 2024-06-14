@@ -150,14 +150,14 @@ const HomeScreen = () => {
             <Text style={styleHome.UVTitle2}>Now</Text>
             <Text style={styleHome.UVIndex}>{UVIndex}</Text>
             <Text style={styleHome.UVTitle2}>Max</Text>
-            <Text style={styleHome.UVIndex}>20</Text>
+            <Text style={styleHome.UVIndex}>6</Text>
           </View> 
           <View style={styleHome.WeatherContainer}>
             <Text style={styleHome.WTTitle1}>Weather Conditions</Text>
             <Image style={styleHome.WTTitle2} source={require('../assets/temperature.png')}/>
-            <Text style={styleHome.WTIndex}>{temperature}℃</Text>
+            <Text style={styleHome.WTIndex}>26℃</Text>
             <Image style={styleHome.WTTitle2} source={require('../assets/humidity.png')} />
-            <Text style={styleHome.WTIndex}>{humidity}%</Text>
+            <Text style={styleHome.WTIndex}>96%</Text>
           </View>               
         </LinearGradient>
 
@@ -178,14 +178,10 @@ const HomeScreen = () => {
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Day</Text>
               <Text style={styleHome.predictionText}>{nextDays[0]?.date.format('dddd') || 'N/A'}</Text>
-            </View>        
-            <View style={styleHome.predictionTextContainer}>
-              <Text style={styleHome.predictionSubTitle}>Min UV</Text>
-              <Text style={styleHome.predictionText}>5</Text>
-            </View>
+            </View>       
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Max UV</Text>
-              <Text style={styleHome.predictionText}>12</Text>
+              <Text style={styleHome.predictionText}>6</Text>
             </View>          
           </View>
           
