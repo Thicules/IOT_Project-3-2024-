@@ -3,6 +3,10 @@ import { Text, View, ActivityIndicator } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import axios from "axios";
 import { COLORS } from "../../assets";
+import { useSelector,useDispatch } from 'react-redux';
+import { updateAllMax} from '../../reducers/maxValue';
+
+
 state = {
   datasource: [],
   realTimeData: [],
@@ -10,6 +14,7 @@ state = {
   error: false,
   };  
 const Linedchart = () => {
+  const dispatch=useDispatch();
   const [datasource1, setDatasource1] = useState([]);
   const [datasource2, setDatasource2] = useState([]);
   const [realTimeData, setRealTimeData] = useState([]);
@@ -36,6 +41,11 @@ const Linedchart = () => {
       const response2 = await axios.get("http://20.127.187.112/api/forecast?id_sensor=66308f81873ef1d334dd28dc", { headers });
       if (response2.data) {
         setDatasource2(response2.data);
+        const dataMax = {
+          "maxToday": Math.max(...response2.data.today),
+          "maxNextday": Math.max(...response2.data.nextday)
+        };
+        dispatch(updateAllMax(dataMax));
         
       }
 
