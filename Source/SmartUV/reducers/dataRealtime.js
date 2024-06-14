@@ -20,7 +20,7 @@ const DataRealTime=createSlice({
             return {...state,UVindex:action.payload}
         },       
         updateAll(state,action){
-            return {state: action.payload}
+            return action.payload
         },
         resetDataRealTime(state){
             return init;
@@ -29,5 +29,5 @@ const DataRealTime=createSlice({
 })
 
 export const {actions,reducer} = DataRealTime
-export const {updateTemperature, updateHumidity,updateLight,updateMoisture,updateLed}=actions
+export const {updateAll,updateHumidity,updateTemperature,updateUVIndex,resetDataRealTime}=actions
 export default reducer
