@@ -7,9 +7,9 @@ import Linedchart from './components/LineChart';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import NextLinedchart from './components/NextLineChart';
-import { connectToMqttBroker, getSensorData } from '../getdata/getData';
+import MQTT from '../getdata/getData';
 
 function convertUVIndexToPercentage(uvIndex) {
 	if (uvIndex>=11) return 100
@@ -17,6 +17,8 @@ function convertUVIndexToPercentage(uvIndex) {
 }
 
 const HomeScreen = () => {
+  const maxUVToday=useSelector(state=>state.maxValue.maxToday)
+  const maxUVNextday=useSelector(state=>state.maxValue.maxNextday)
   // Lấy thời gian và vị trí của thiết bị di động
   const [currentTime, setCurrentTime] = useState("");
   const [city, setCityName] = useState(null);
@@ -26,7 +28,7 @@ const HomeScreen = () => {
   const [temperature, setTemperature] = useState(0);
 
   useEffect(() => {
-    connectToMqttBroker();
+    new MQTT();
     updateNextDays();
     const interval = setInterval(() => {
       updateNextDays();
@@ -38,10 +40,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const { UVIndex, temperature, humidity } = getSensorData();
-      setUVIndex(UVIndex);
-      setTemperature(temperature);
-      setHumidity(humidity);
+      
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -150,14 +149,14 @@ const HomeScreen = () => {
             <Text style={styleHome.UVTitle2}>Now</Text>
             <Text style={styleHome.UVIndex}>{UVIndex}</Text>
             <Text style={styleHome.UVTitle2}>Max</Text>
-            <Text style={styleHome.UVIndex}>20</Text>
+            <Text style={styleHome.UVIndex}>{maxUVToday}</Text>
           </View> 
           <View style={styleHome.WeatherContainer}>
             <Text style={styleHome.WTTitle1}>Weather Conditions</Text>
             <Image style={styleHome.WTTitle2} source={require('../assets/temperature.png')}/>
-            <Text style={styleHome.WTIndex}>{temperature}℃</Text>
+            <Text style={styleHome.WTIndex}>30℃</Text>
             <Image style={styleHome.WTTitle2} source={require('../assets/humidity.png')} />
-            <Text style={styleHome.WTIndex}>{humidity}%</Text>
+            <Text style={styleHome.WTIndex}>81%</Text>
           </View>               
         </LinearGradient>
 
@@ -185,7 +184,7 @@ const HomeScreen = () => {
             </View>
             <View style={styleHome.predictionTextContainer}>
               <Text style={styleHome.predictionSubTitle}>Max UV</Text>
-              <Text style={styleHome.predictionText}>12</Text>
+              <Text style={styleHome.predictionText}>{maxUVNextday}</Text>
             </View>          
           </View>
           

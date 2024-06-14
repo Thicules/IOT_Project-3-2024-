@@ -3,7 +3,7 @@ import keras
 class CNN_Custom(keras.Model):
     def __init__(self):
         super(CNN_Custom, self).__init__()
-        self.conv2 = keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu')
+        self.conv1 = keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu')
         self.conv2 = keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu')
         self.maxpool = keras.layers.MaxPooling2D(pool_size=(2, 2))
         self.flatten = keras.layers.Flatten()

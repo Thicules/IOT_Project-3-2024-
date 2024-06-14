@@ -1,12 +1,10 @@
 import { configureStore} from "@reduxjs/toolkit"
+import realDate from "../reducers/dataRealtime"
+import maxValue from "../reducers/maxValue"
 
 const rootReducer={
-    infoUser: infoUserReducer,
-    token: tokenReducer,
-    garden:gardenReducer,
-    plant:plantsReducer,
-    dataMQTT:dataMQTT,
-   
+    realData: realDate,
+    maxValue: maxValue
 }
 
 const store=configureStore({
