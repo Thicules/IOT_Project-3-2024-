@@ -40,11 +40,11 @@ def on_message_local(client, userdata, msg):
     db.insert({'id_sensors': 1 ,'data': data})
 
 
-# client_public = mqtt.Client()
-# client_public.on_connect = on_connect_public
-# client_public.on_message = on_message_public
-# client_public.username_pw_set(mqqt_broker_public_user, mqqt_broker_public_password)
-# client_public.connect(mqqt_broker_public, mqqt_broker_public_port, 60)
+client_public = mqtt.Client()
+client_public.on_connect = on_connect_public
+client_public.on_message = on_message_public
+client_public.username_pw_set(mqqt_broker_public_user, mqqt_broker_public_password)
+client_public.connect(mqqt_broker_public, mqqt_broker_public_port, 60)
 
 
 client_local = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,client_id="local")
